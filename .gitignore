@@ -43,6 +43,7 @@ ExportedObj/
 # Unity folder meta
 Plugins.meta
 TextMesh Pro.meta
+Packages.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
