@@ -407,11 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a889ea793f2ca241af25ccaa37b64a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redCrystal: {fileID: 1011319553682498, guid: 6ed5ee9eb0cb3654d9e5e67354bf6e04, type: 3}
-  greenCrystal: {fileID: 1011319553682498, guid: 03560aaef8caf8e41862ef3873c25bcb, type: 3}
-  blueCrystal: {fileID: 1011319553682498, guid: 9430b9da7f188134e86eca864fcd7492, type: 3}
-  pinkCrystal: {fileID: 1011319553682498, guid: 3cfa5edd9e1a5b7449004078491db03c, type: 3}
-  yellowCrystal: {fileID: 1011319553682498, guid: a2d81dde572d144449eca6de3d9858a7, type: 3}
 --- !u!1 &207664166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,6 +1257,69 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608826061}
   m_CullTransparentMesh: 1
+--- !u!1 &624670974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 624670976}
+  - component: {fileID: 624670975}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &624670975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624670974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &624670976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624670974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &635206005
 GameObject:
   m_ObjectHideFlags: 0
