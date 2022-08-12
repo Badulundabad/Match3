@@ -144,6 +144,7 @@ namespace Scripts.Gameplay
             if (firstCrystal != null && secondCrystal != null)
             {
                 SwapCrystals();
+                CheckCrystals();
             }
             else
             {
@@ -171,6 +172,39 @@ namespace Scripts.Gameplay
             secondCrystal.ChangeNode(row, column);
             secondCrystal.ChangePosition(position);
             crystals[row][column] = secondCrystal;
+        }
+
+        private void CheckCrystals()
+        {
+            CheckRows();
+        }
+
+        private void CheckRows()
+        {
+            for (int i = 0; i < rowCount; i++)
+            {
+                if (crystals[i][1].color == crystals[i][2].color)
+                {
+                    if (crystals[i][0].color == crystals[i][1].color)
+                    {
+                        crystals[i][0].Destroy();
+                        crystals[i][0] = null;
+                        crystals[i][1].Destroy();
+                        crystals[i][1] = null;
+                        crystals[i][2].Destroy();
+                        crystals[i][2] = null;
+                    }
+                    else if (crystals[i][2].color == crystals[i][3].color)
+                    {
+                        crystals[i][1].Destroy();
+                        crystals[i][1] = null;
+                        crystals[i][2].Destroy();
+                        crystals[i][2] = null;
+                        crystals[i][3].Destroy();
+                        crystals[i][3] = null;
+                    }
+                }
+            }
         }
     }
 }
