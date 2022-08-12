@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Gameplay
 {
@@ -12,17 +13,13 @@ namespace Scripts.Gameplay
         private Crystal secondCrystal;
         private GameObject pickedObject;
         private MouseHandler mouseHandler;
+        private CrystalFactory crystalHelper;
 
-        [SerializeField] private GameObject redCrystal;
-        [SerializeField] private GameObject greenCrystal;
-        [SerializeField] private GameObject blueCrystal;
-        [SerializeField] private GameObject pinkCrystal;
-        [SerializeField] private GameObject yellowCrystal;
-        private GameObject[] prefabs;
-
-        private void Start()
+        [Inject]
+        private void Construct(MouseHandler mouseHandler, CrystalFactory crystalCreator)
         {
-            mouseHandler = new MouseHandler();
+            this.mouseHandler = mouseHandler;
+            this.crystalHelper = crystalCreator;
             InitializeArrays();
             FillFieldWithCrystals();
         }
@@ -40,13 +37,6 @@ namespace Scripts.Gameplay
             {
                 crystals[i] = new Crystal[columnCount];
             }
-
-            prefabs = new GameObject[5];
-            prefabs[0] = redCrystal;
-            prefabs[1] = greenCrystal;
-            prefabs[2] = blueCrystal;
-            prefabs[3] = pinkCrystal;
-            prefabs[4] = yellowCrystal;
         }
 
         private void FillFieldWithCrystals()
@@ -60,18 +50,12 @@ namespace Scripts.Gameplay
                 Transform child = transform.GetChild(i);
                 crystalPositions[row][column] = child.position;
 
-                Crystal crystal = GenerateCrystal();
+                Crystal crystal = crystalHelper.CreateRandomCrystal();
                 crystal.ChangePosition(child.position);
                 crystal.ChangeNode(row, column);
                 crystals[row][column] = crystal;
+                Debug.Log($"{crystal.color}");
             }
-        }
-
-        private Crystal GenerateCrystal()
-        {
-            int index = Random.Range(0, 4);
-            GameObject obj = Instantiate(prefabs[index]);
-            return new Crystal((CrystalColor)index, obj);
         }
 
         private void Update()
