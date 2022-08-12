@@ -46,18 +46,9 @@ namespace Scripts.Gameplay
             this.column = column;
         }
 
-        public void SwapWith(Crystal crystal)
+        public void Destroy()
         {
-            int row = crystal.row;
-            int column = crystal.column;
-            Vector3 position = crystal.position;
-            crystal.row = this.row;
-            crystal.column = this.column;
-            crystal.position = this.position;
-            this.row = row;
-            this.column = column;
-            crystal.ChangePosition(this.position);
-            ChangePosition(position);
+            GameObject.Destroy(gameObject);
         }
     }
 }
