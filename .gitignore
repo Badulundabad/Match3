@@ -4,7 +4,9 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-[Pp]lugins
+[Pp]lugins/
+[Pp]ackages/
+[Tt]extMesh Pro/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*
@@ -40,6 +42,7 @@ ExportedObj/
 
 # Unity folder meta
 Plugins.meta
+TextMesh Pro.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
