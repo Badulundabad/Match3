@@ -357,7 +357,6 @@ GameObject:
   m_Component:
   - component: {fileID: 206373350}
   - component: {fileID: 206373351}
-  - component: {fileID: 206373352}
   m_Layer: 0
   m_Name: PlayField
   m_TagString: Untagged
@@ -406,18 +405,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a889ea793f2ca241af25ccaa37b64a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &206373352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206373349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5c3a2b2b4cbc7b4885c4072b3a6e809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   redCrystal: {fileID: 1011319553682498, guid: 6ed5ee9eb0cb3654d9e5e67354bf6e04, type: 3}
