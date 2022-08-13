@@ -177,6 +177,7 @@ namespace Scripts.Gameplay
         private void CheckCrystals()
         {
             CheckRows();
+            CheckColumns();
         }
 
         private void CheckRows()
@@ -185,25 +186,63 @@ namespace Scripts.Gameplay
             {
                 if (crystals[i][1].color == crystals[i][2].color)
                 {
-                    if (crystals[i][0].color == crystals[i][1].color)
-                    {
-                        crystals[i][0].Destroy();
-                        crystals[i][0] = null;
-                        crystals[i][1].Destroy();
-                        crystals[i][1] = null;
-                        crystals[i][2].Destroy();
-                        crystals[i][2] = null;
-                    }
-                    else if (crystals[i][2].color == crystals[i][3].color)
-                    {
-                        crystals[i][1].Destroy();
-                        crystals[i][1] = null;
-                        crystals[i][2].Destroy();
-                        crystals[i][2] = null;
-                        crystals[i][3].Destroy();
-                        crystals[i][3] = null;
-                    }
+                    CheckRow(i);
                 }
+            }
+        }
+
+        private void CheckRow(int index)
+        {
+            if (crystals[index][0].color == crystals[index][1].color)
+            {
+                crystals[index][0].Destroy();
+                crystals[index][0] = null;
+                crystals[index][1].Destroy();
+                crystals[index][1] = null;
+                crystals[index][2].Destroy();
+                crystals[index][2] = null;
+            }
+            else if (crystals[index][2].color == crystals[index][3].color)
+            {
+                crystals[index][1].Destroy();
+                crystals[index][1] = null;
+                crystals[index][2].Destroy();
+                crystals[index][2] = null;
+                crystals[index][3].Destroy();
+                crystals[index][3] = null;
+            }
+        }
+
+        private void CheckColumns()
+        {
+            for (int i = 0; i < columnCount; i++)
+            {
+                if (crystals[1][i].color == crystals[2][i].color)
+                {
+                    CheckColumn(i);
+                }
+            }
+        }
+
+        private void CheckColumn(int index)
+        {
+            if (crystals[0][index].color == crystals[1][index].color)
+            {
+                crystals[0][index].Destroy();
+                crystals[0][index] = null;
+                crystals[1][index].Destroy();
+                crystals[1][index] = null;
+                crystals[2][index].Destroy();
+                crystals[2][index] = null;
+            }
+            else if (crystals[2][index].color == crystals[3][index].color)
+            {
+                crystals[1][index].Destroy();
+                crystals[1][index] = null;
+                crystals[2][index].Destroy();
+                crystals[2][index] = null;
+                crystals[3][index].Destroy();
+                crystals[3][index] = null;
             }
         }
     }
