@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Scripts.Gameplay
+namespace Scripts.Audio
 {
     public class AudioPlayer
     {
