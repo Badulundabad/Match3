@@ -54,7 +54,6 @@ namespace Scripts.Gameplay
                 crystal.ChangePosition(child.position);
                 crystal.ChangeNode(row, column);
                 crystals[row][column] = crystal;
-                Debug.Log($"{crystal.color}");
             }
         }
 
