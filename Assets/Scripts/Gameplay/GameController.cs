@@ -12,14 +12,16 @@ namespace Scripts.Gameplay
         private Crystal firstCrystal;
         private Crystal secondCrystal;
         private GameObject pickedObject;
-        private MouseHandler mouseHandler;
-        private CrystalFactory crystalHelper;
+        private IInputHandler inputHandler;
+        private CrystalFactory crystalFactory;
+        private AudioPlayer audioPlayer;
 
         [Inject]
-        private void Construct(MouseHandler mouseHandler, CrystalFactory crystalCreator)
+        private void Construct(IInputHandler inputHandler, CrystalFactory crystalFactory, AudioPlayer audioPlayer)
         {
-            this.mouseHandler = mouseHandler;
-            this.crystalHelper = crystalCreator;
+            this.inputHandler = inputHandler;
+            this.crystalFactory = crystalFactory;
+            this.audioPlayer = audioPlayer;
             InitializeArrays();
             FillFieldWithCrystals();
         }
@@ -50,7 +52,7 @@ namespace Scripts.Gameplay
                 Transform child = transform.GetChild(i);
                 crystalPositions[row][column] = child.position;
 
-                Crystal crystal = crystalHelper.CreateRandomCrystal();
+                Crystal crystal = crystalFactory.CreateRandomCrystal();
                 crystal.ChangePosition(child.position);
                 crystal.ChangeNode(row, column);
                 crystals[row][column] = crystal;
@@ -63,7 +65,7 @@ namespace Scripts.Gameplay
             {
                 if (firstCrystal == null)
                 {
-                    if (mouseHandler.TryToPick(out pickedObject))
+                    if (inputHandler.TryToPick(out pickedObject))
                     {
                         firstCrystal = FindCrystalByObject(pickedObject);
                         firstCrystal.Activate();
@@ -71,7 +73,7 @@ namespace Scripts.Gameplay
                 }
                 else
                 {
-                    Direction dir = mouseHandler.GetMoveDirection(pickedObject.transform.position);
+                    Direction dir = inputHandler.GetMoveDirection(pickedObject.transform.position);
                     Crystal crystal = FindSecondCrystalByDirection(dir);
                     ChangeSecondCrystal(crystal);
                     Cursor.visible = false;
@@ -143,6 +145,7 @@ namespace Scripts.Gameplay
             if (firstCrystal != null && secondCrystal != null)
             {
                 SwapActiveCrystals();
+                audioPlayer.PlayCrystalSwap();
                 CheckAllCrystals();
             }
             else
@@ -200,6 +203,8 @@ namespace Scripts.Gameplay
                 crystals[index][1] = null;
                 crystals[index][2].Destroy();
                 crystals[index][2] = null;
+
+                audioPlayer.PlayCrystalMatch();
             }
             else if (crystals[index][2].color == crystals[index][3].color)
             {
@@ -209,6 +214,8 @@ namespace Scripts.Gameplay
                 crystals[index][2] = null;
                 crystals[index][3].Destroy();
                 crystals[index][3] = null;
+
+                audioPlayer.PlayCrystalMatch();
             }
         }
 
@@ -233,6 +240,8 @@ namespace Scripts.Gameplay
                 crystals[1][index] = null;
                 crystals[2][index].Destroy();
                 crystals[2][index] = null;
+
+                audioPlayer.PlayCrystalMatch();
             }
             else if (crystals[2][index].color == crystals[3][index].color)
             {
@@ -242,6 +251,8 @@ namespace Scripts.Gameplay
                 crystals[2][index] = null;
                 crystals[3][index].Destroy();
                 crystals[3][index] = null;
+
+                audioPlayer.PlayCrystalMatch();
             }
         }
     }
