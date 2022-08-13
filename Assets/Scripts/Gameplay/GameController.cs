@@ -143,8 +143,8 @@ namespace Scripts.Gameplay
         {
             if (firstCrystal != null && secondCrystal != null)
             {
-                SwapCrystals();
-                CheckCrystals();
+                SwapActiveCrystals();
+                CheckAllCrystals();
             }
             else
             {
@@ -155,7 +155,7 @@ namespace Scripts.Gameplay
             secondCrystal = null;
         }
 
-        private void SwapCrystals()
+        private void SwapActiveCrystals()
         {
             int row = firstCrystal.row;
             int column = firstCrystal.column;
@@ -174,7 +174,7 @@ namespace Scripts.Gameplay
             crystals[row][column] = secondCrystal;
         }
 
-        private void CheckCrystals()
+        private void CheckAllCrystals()
         {
             CheckRows();
             CheckColumns();
