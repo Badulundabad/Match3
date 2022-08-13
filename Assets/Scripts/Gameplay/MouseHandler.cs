@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class MouseHandler
+    public class MouseHandler : IInputHandler
     {
         private const int pickableLayer = 6;
         private GameObject selectedObject;
