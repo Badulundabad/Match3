@@ -7,7 +7,7 @@ namespace Scripts.Audio
     {
         [Inject]private AudioSource source;
         [Inject(Id = "victory")] private AudioClip victory;
-        [Inject(Id = "lose")] private AudioClip lose;
+        [Inject(Id = "reject")] private AudioClip reject;
         [Inject(Id = "swap")] private AudioClip swap;
         [Inject(Id = "match")] private AudioClip match;
 
@@ -16,9 +16,9 @@ namespace Scripts.Audio
             source.PlayOneShot(victory);
         }
 
-        public void PlayLose()
+        public void PlayReject()
         {
-            source.PlayOneShot(lose);
+            source.PlayOneShot(reject);
         }
 
         public void PlayCrystalSwap()

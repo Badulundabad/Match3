@@ -1684,11 +1684,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7081fab3275559d40abf0d08a62bbfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 0}
   victory: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
-  lose: {fileID: 8300000, guid: 5fdb13d3756c84fecac96f5a2d124370, type: 3}
   swap: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
   match: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  reject: {fileID: 8300000, guid: 5fdb13d3756c84fecac96f5a2d124370, type: 3}
   redCrystal: {fileID: 1011319553682498, guid: 6ed5ee9eb0cb3654d9e5e67354bf6e04, type: 3}
   greenCrystal: {fileID: 1011319553682498, guid: 03560aaef8caf8e41862ef3873c25bcb, type: 3}
   blueCrystal: {fileID: 1011319553682498, guid: 9430b9da7f188134e86eca864fcd7492, type: 3}

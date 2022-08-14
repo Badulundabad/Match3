@@ -9,9 +9,9 @@ namespace Scripts.Installers
     public class GameSceneInstaller : MonoInstaller
     {
         [SerializeField] private AudioClip victory;
-        [SerializeField] private AudioClip lose;
         [SerializeField] private AudioClip swap;
         [SerializeField] private AudioClip match;
+        [SerializeField] private AudioClip reject;
         [SerializeField] private GameObject redCrystal;
         [SerializeField] private GameObject greenCrystal;
         [SerializeField] private GameObject blueCrystal;
@@ -30,9 +30,9 @@ namespace Scripts.Installers
         {
             Container.Bind<AudioSource>().FromComponentInHierarchy().AsSingle();
             Container.Bind<AudioClip>().WithId("victory").FromInstance(victory);
-            Container.Bind<AudioClip>().WithId("lose").FromInstance(lose);
             Container.Bind<AudioClip>().WithId("swap").FromInstance(swap);
             Container.Bind<AudioClip>().WithId("match").FromInstance(match);
+            Container.Bind<AudioClip>().WithId("reject").FromInstance(reject);
             Container.Bind<AudioPlayer>().AsSingle();
         }
 
