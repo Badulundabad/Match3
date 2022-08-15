@@ -7,9 +7,9 @@ namespace Scripts.UI
     public class MenuUIController : MonoBehaviour
     {
         private string gameSceneName = "GameScene";
-        public Button playButton;
-        public Button optionsButton;
-        public Button exitButton;
+        [SerializeField] private Button playButton;
+        [SerializeField] private Button optionsButton;
+        [SerializeField] private Button exitButton;
 
         private void Start()
         {
@@ -22,9 +22,11 @@ namespace Scripts.UI
         {
             SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
         }
+
         private void OnOptionsButtonPressed()
         {
         }
+
         private void OnExitButtonPressed()
         {
             Application.Quit();

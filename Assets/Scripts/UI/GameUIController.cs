@@ -7,22 +7,31 @@ namespace Scripts.UI
     public class GameUIController : MonoBehaviour
     {
         private string menuSceneName = "MenuScene";
-        public Button pauseButton;
-        public Button optionsButton;
+
+        [SerializeField] private GameObject menuUI;
+        [SerializeField] private Button pauseButton;
+        [SerializeField] private Button optionsButton;
+        [SerializeField] private Button exitButton;
 
         private void Start()
         {
             pauseButton.onClick.AddListener(OnPauseButtonPressed);
             optionsButton.onClick.AddListener(OnOptionsButtonPressed);
+            exitButton.onClick.AddListener(OnExitButtonPressed);
         }
 
         private void OnPauseButtonPressed()
         {
-            SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
+            menuUI.SetActive(true);
         }
 
         private void OnOptionsButtonPressed()
         {
+        }
+
+        private void OnExitButtonPressed()
+        {
+            SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
         }
     }
 }
