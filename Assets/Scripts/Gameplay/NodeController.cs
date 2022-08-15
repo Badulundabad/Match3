@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Gameplay
 {
     public class NodeController
     {
+        private const int minMatchCount = 2;
+
         private int rowCount;
         private int columnCount;
         private Node[][] nodes;
@@ -24,6 +28,7 @@ namespace Scripts.Gameplay
             this.crystalFactory = crystalFactory;
             InitializeNodes(nodes);
             FillNodes();
+            IsReady = true;
         }
 
         public bool ActivateFirstNodeByCrystal(GameObject obj)
@@ -34,7 +39,7 @@ namespace Scripts.Gameplay
                 {
                     if (!nodes[i][j].ContainsCrystal(obj)) continue;
                     firstNode = nodes[i][j];
-                    firstNode.Activate();
+                    firstNode.ActivateCrystal();
                     return true;
                 }
             }
@@ -64,23 +69,24 @@ namespace Scripts.Gameplay
             else
                 result = false;
 
-            firstNode?.Deactivate();
-            secondNode?.Deactivate();
+            firstNode?.DeactivateCrystal();
+            secondNode?.DeactivateCrystal();
             firstNode = null;
             secondNode = null;
             return result;
         }
 
-        public void RunResolving()
+        public IEnumerator RunResolving()
         {
-          //  bool isMatch = false;
-          //  do
-          //  {
-          //      FillNodes();
-          //      isMatch = CheckField();
-          //  }
-          //  while (isMatch);
-          //  OnMatch?.Invoke();
+            IsReady = false;
+            bool isMatch = true;
+            while (isMatch)
+            {
+                FillNodes();
+                isMatch = CheckFieldForMatch();
+                yield return new WaitForSeconds(0.1f);
+            }
+            IsReady = true;
         }
 
         public bool IsThereActiveFirst()
@@ -150,11 +156,11 @@ namespace Scripts.Gameplay
 
         private void ChangeSecondActiveNode(Node newNode)
         {
-            secondNode?.Deactivate();
+            secondNode?.DeactivateCrystal();
             if (newNode != null)
             {
                 secondNode = newNode;
-                secondNode.Activate();
+                secondNode.ActivateCrystal();
             }
         }
 
@@ -166,6 +172,119 @@ namespace Scripts.Gameplay
                 {
                     nodes[i][j].Fill();
                 }
+            }
+        }
+
+        private bool CheckFieldForMatch()
+        {
+            bool result = false;
+            for (int i = 0; i < rowCount; i++)
+            {
+                result |= TryToDestroyRow(i);
+            }
+            for (int j = 0; j < columnCount; j++)
+            {
+                result |= TryToDestroyColumn(j);
+            }
+
+            return result;
+        }
+
+        private bool TryToDestroyRow(int index)
+        {
+            CrystalColor color = nodes[index][0].GetCrystalColor();
+            int startIndex = -1;
+            int matchCount = 1;
+
+            for (int i = 1; i < columnCount; i++)
+            {
+                Node node = nodes[index][i];
+                if (color == node.GetCrystalColor())
+                {
+                    matchCount++;
+
+                    if (startIndex < 0)
+                    {
+                        startIndex = i - 1;
+                    }
+
+                    if (i == columnCount - 1 && matchCount > minMatchCount)
+                    {
+                        DestroyRow(index, startIndex, matchCount);
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (matchCount > minMatchCount)
+                    {
+                        DestroyRow(index, startIndex, matchCount);
+                        return true;
+                    }
+                    startIndex = -1;
+                    matchCount = 1;
+                }
+                color = node.GetCrystalColor();
+            }
+            return false;
+        }
+
+        private void DestroyRow(int row, int startIndex, int matchCount)
+        {
+            int num = startIndex + matchCount;
+            for (int i = startIndex; i < num; i++)
+            {
+                Node node = nodes[row][i];
+                node.DestroyCrystal();
+            }
+        }
+
+        private bool TryToDestroyColumn(int index)
+        {
+            CrystalColor color = nodes[0][index].GetCrystalColor();
+            int startIndex = -1;
+            int matchCount = 1;
+
+            for (int i = 1; i < rowCount; i++)
+            {
+                Node node = nodes[i][index];
+                if (color == node.GetCrystalColor())
+                {
+                    matchCount++;
+
+                    if (startIndex < 0)
+                    {
+                        startIndex = i - 1;
+                    }
+
+                    if (i == rowCount - 1 && matchCount > minMatchCount)
+                    {
+                        DestroyColumn(index, startIndex, matchCount);
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (matchCount > minMatchCount)
+                    {
+                        DestroyColumn(index, startIndex, matchCount);
+                        return true;
+                    }
+                    startIndex = -1;
+                    matchCount = 1;
+                }
+                color = node.GetCrystalColor();
+            }
+            return false;
+        }
+
+        private void DestroyColumn(int column, int startIndex, int matchCount)
+        {
+            int num = startIndex + matchCount;
+            for (int i = startIndex; i < num; i++)
+            {
+                Node node = nodes[i][column];
+                node.DestroyCrystal();
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Gameplay
 {
@@ -19,10 +20,14 @@ namespace Scripts.Gameplay
 
         public void Fill()
         {
-            if (crystal != null) return;
-            Node node;
-            if (neighbors.TryGetValue(Direction.forward, out node) && node.TryGetCrystal(out crystal)) return;
-            crystal = crystalFactory.CreateRandomCrystal();
+            if (crystal != null)
+            {
+                return;
+            }
+            if (!TryReturnCrystal(out crystal))
+            {
+                crystal = crystalFactory.CreateRandomCrystal();
+            }
             crystal.ChangePosition(gameObject.transform.position);
         }
 
@@ -36,24 +41,19 @@ namespace Scripts.Gameplay
             return neighbors.TryGetValue(direction, out node);
         }
 
-        public bool ContainsCrystal(GameObject obj)
-        {
-            return crystal.gameObject == obj;
-        }
-
-        public void Activate()
+        public void ActivateCrystal()
         {
             crystal.Activate();
         }
 
-        public void Deactivate()
+        public void DeactivateCrystal()
         {
             crystal.Deactivate();
         }
 
-        public Crystal GetCrystal()
+        public bool ContainsCrystal(GameObject obj)
         {
-            return crystal;
+            return crystal.gameObject == obj;
         }
 
         public void SetCrystal(Crystal crystal)
@@ -62,21 +62,42 @@ namespace Scripts.Gameplay
             crystal.ChangePosition(gameObject.transform.position);
         }
 
-        private bool TryGetCrystal(out Crystal crystal)
+        public Crystal GetCrystal()
+        {
+            return crystal;
+        }
+
+        public CrystalColor GetCrystalColor()
+        {
+            return crystal != null ? crystal.color : CrystalColor.none;
+        }
+
+        public void DestroyCrystal()
+        {
+            if (crystal != null)
+            {
+                crystal.Destroy();
+                crystal = null;
+            }
+        }
+
+        private bool TryReturnCrystal(out Crystal crystal)
         {
             if (this.crystal != null)
             {
                 crystal = this.crystal;
+                this.crystal = null;
                 return true;
             }
 
-            Node node;
-            if (neighbors.TryGetValue(Direction.forward, out node))
+            Node neighbor;
+            if (neighbors.TryGetValue(Direction.forward, out neighbor) && neighbor.TryReturnCrystal(out crystal))
             {
-                return node.TryGetCrystal(out crystal);
+                return true;
             }
             crystal = null;
             return false;
         }
+
     }
 }

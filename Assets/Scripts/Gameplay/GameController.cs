@@ -20,6 +20,7 @@ namespace Scripts.Gameplay
             this.inputHandler = inputHandler;
             this.audioPlayer = audioPlayer;
             nodeController = new NodeController(GetNodeList(), rowCount, columnCount, crystalFactory);
+            StartCoroutine(nodeController.RunResolving());
             nodeController.OnSwap += () => this.audioPlayer.PlayCrystalSwap();
             nodeController.OnMatch += () => this.audioPlayer.PlayCrystalMatch();
         }
@@ -63,7 +64,7 @@ namespace Scripts.Gameplay
                 pickedObject = null;
                 if (nodeController.TrySwapActiveCrystals())
                 {
-                    //nodeController.RunResolving();
+                   StartCoroutine(nodeController.RunResolving());
                 }
             }
         }
