@@ -2,9 +2,9 @@
 
 namespace Scripts.Gameplay
 {
-    public interface IInputHandler
+    public interface IInputHelper
     {
         bool TryToPick(out GameObject obj);
-        Direction GetMoveDirection(Vector3 position);
+        Direction GetSwapDirection();
     }
 }

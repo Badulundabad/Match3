@@ -2,7 +2,7 @@
 
 namespace Scripts.Gameplay
 {
-    public class MouseHandler : IInputHandler
+    public class MouseHelper : IInputHelper
     {
         private const int pickableLayer = 6;
         private GameObject selectedObject;
@@ -26,11 +26,13 @@ namespace Scripts.Gameplay
             return false;
         }
 
-        public Direction GetMoveDirection(Vector3 position)
+        public Direction GetSwapDirection()
         {
+            if(selectedObject == null) return Direction.none;
+
             Vector3 pos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(pos);
-            Vector3 vector = (worldPosition - position).normalized;
+            Vector3 vector = (worldPosition - selectedObject.transform.position).normalized;
 
             if (Mathf.Abs(vector.x) > Mathf.Abs(vector.z))
             {

@@ -46,7 +46,7 @@ namespace Scripts.Installers
             prefabs.Add(CrystalColor.yellow, yellowCrystal);
             Container.Bind<Dictionary<CrystalColor, GameObject>>().FromInstance(prefabs).WhenInjectedInto<CrystalFactory>();
             Container.Bind<CrystalFactory>().AsSingle();
-            Container.Bind<IInputHandler>().To<MouseHandler>().AsSingle();
+            Container.Bind<IInputHelper>().To<MouseHelper>().AsSingle();
         }
     }
 }
