@@ -1,6 +1,7 @@
 using Scripts.Audio;
 using Scripts.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Scripts.Gameplay
@@ -20,6 +21,7 @@ namespace Scripts.Gameplay
             this.nodeField = nodeField;
             nodeField.OnCrystalsSwap += () => this.audioPlayer.PlayCrystalSwap();
             nodeField.OnCrystalsMatch += (amount) => OnCrystalsMatch(amount);
+            SceneManager.LoadScene("UIScene", LoadSceneMode.Additive);
             UIController.OnPlayButtonClicked += () => OnPlayButtonClicked();
         }
 
