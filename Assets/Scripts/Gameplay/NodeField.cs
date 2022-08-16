@@ -1,33 +1,31 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace Scripts.Gameplay
 {
-    public class NodeController
+    public class NodeField
     {
         private const int minMatchCount = 2;
 
+        private bool isCallbackNeeded;
         private int rowCount;
         private int columnCount;
         private Node[][] nodes;
         private Node firstNode;
         private Node secondNode;
-        private CrystalFactory crystalFactory;
 
         public bool IsReady { get; private set; }
-        public event Action OnSwap;
-        public event Action OnMatch;
+        public event Action OnCrystalsSwap;
+        public event Action<int> OnCrystalsMatch;
 
-        public NodeController(List<GameObject> nodes, int rowCount, int columnCount, CrystalFactory crystalFactory)
+        [Inject]
+        public NodeField(GameObject[] nodes, [Inject(Id = "rows")] int rows, [Inject(Id = "columns")] int columns, CrystalFactory crystalFactory)
         {
-            this.rowCount = rowCount;
-            this.columnCount = columnCount;
-            this.crystalFactory = crystalFactory;
-            InitializeNodes(nodes);
-            FillNodes();
+            rowCount = rows;
+            columnCount = columns;
+            InitializeNodes(nodes, crystalFactory);
             IsReady = true;
         }
 
@@ -63,7 +61,6 @@ namespace Scripts.Gameplay
             if (firstNode != null && secondNode != null)
             {
                 SwapActiveCrystals();
-                OnSwap?.Invoke();
                 result = true;
             }
             else
@@ -76,16 +73,18 @@ namespace Scripts.Gameplay
             return result;
         }
 
-        public IEnumerator RunResolving()
+        public IEnumerator RunResolvingAsync(bool isCallbackNeeded)
         {
             IsReady = false;
             bool isMatch = true;
+            this.isCallbackNeeded = isCallbackNeeded;
             while (isMatch)
             {
                 FillNodes();
                 isMatch = CheckFieldForMatch();
-                yield return new WaitForSeconds(0.1f);
+                yield return null;
             }
+            this.isCallbackNeeded = true;
             IsReady = true;
         }
 
@@ -94,7 +93,7 @@ namespace Scripts.Gameplay
             return firstNode != null;
         }
 
-        private void InitializeNodes(List<GameObject> list)
+        private void InitializeNodes(GameObject[] nodeObjects, CrystalFactory crystalFactory)
         {
             nodes = new Node[rowCount][];
             for (int i = 0; i < rowCount; i++)
@@ -102,12 +101,12 @@ namespace Scripts.Gameplay
                 nodes[i] = new Node[columnCount];
             }
 
-            int crystalCount = rowCount * columnCount;
-            for (int i = 0; i < crystalCount; i++)
+            int nodeCount = rowCount * columnCount;
+            for (int i = 0; i < nodeCount; i++)
             {
                 int row = i / columnCount;
                 int column = i - rowCount * row;
-                Node node = new Node(list[i], crystalFactory);
+                Node node = new Node(nodeObjects[i], crystalFactory);
                 nodes[row][column] = node;
             }
 
@@ -152,6 +151,9 @@ namespace Scripts.Gameplay
 
             firstNode.SetCrystal(crystal2);
             secondNode.SetCrystal(crystal1);
+
+            if (isCallbackNeeded)
+                OnCrystalsSwap?.Invoke();
         }
 
         private void ChangeSecondActiveNode(Node newNode)
@@ -237,6 +239,8 @@ namespace Scripts.Gameplay
                 Node node = nodes[row][i];
                 node.DestroyCrystal();
             }
+            if (isCallbackNeeded)
+                OnCrystalsMatch?.Invoke(matchCount);
         }
 
         private bool TryToDestroyColumn(int index)
@@ -286,6 +290,8 @@ namespace Scripts.Gameplay
                 Node node = nodes[i][column];
                 node.DestroyCrystal();
             }
+            if (isCallbackNeeded)
+                OnCrystalsMatch?.Invoke(matchCount);
         }
     }
 }

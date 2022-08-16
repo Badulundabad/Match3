@@ -3,32 +3,36 @@ using Zenject;
 
 namespace Scripts.Audio
 {
-    public class AudioPlayer
+    public class AudioPlayer : MonoBehaviour
     {
-        [Inject]private AudioSource source;
-        [Inject(Id = "victory")] private AudioClip victory;
-        [Inject(Id = "reject")] private AudioClip reject;
-        [Inject(Id = "swap")] private AudioClip swap;
-        [Inject(Id = "match")] private AudioClip match;
+        private AudioSource source;
+        private AudioList audioList;
+
+        [Inject]
+        private void Construct(AudioSource source, AudioList audioList)
+        {
+            this.source = source;
+            this.audioList = audioList;
+        }
 
         public void PlayVictory()
         {
-            source.PlayOneShot(victory);
+            source.PlayOneShot(audioList.Victory);
         }
 
         public void PlayReject()
         {
-            source.PlayOneShot(reject);
+            source.PlayOneShot(audioList.Reject);
         }
 
         public void PlayCrystalSwap()
         {
-            source.PlayOneShot(swap);
+            source.PlayOneShot(audioList.Swap);
         }
 
         public void PlayCrystalMatch()
         {
-            source.PlayOneShot(match);
+            source.PlayOneShot(audioList.Match);
         }
     }
 }

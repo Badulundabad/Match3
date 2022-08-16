@@ -1,5 +1,5 @@
 using Scripts.Audio;
-using System.Collections.Generic;
+using Scripts.UI;
 using UnityEngine;
 using Zenject;
 
@@ -7,54 +7,42 @@ namespace Scripts.Gameplay
 {
     public class GameController : MonoBehaviour
     {
-        private int rowCount = 4;
-        private int columnCount = 4;
         private GameObject pickedObject;
         private IInputHelper inputHandler;
         private AudioPlayer audioPlayer;
-        private NodeController nodeController;
+        private NodeField nodeField;
 
         [Inject]
-        private void Construct(IInputHelper inputHandler, CrystalFactory crystalFactory, AudioPlayer audioPlayer)
+        private void Construct(IInputHelper inputHandler, NodeField nodeField, AudioPlayer audioPlayer)
         {
             this.inputHandler = inputHandler;
             this.audioPlayer = audioPlayer;
-            nodeController = new NodeController(GetNodeList(), rowCount, columnCount, crystalFactory);
-            StartCoroutine(nodeController.RunResolving());
-            nodeController.OnSwap += () => this.audioPlayer.PlayCrystalSwap();
-            nodeController.OnMatch += () => this.audioPlayer.PlayCrystalMatch();
+            this.nodeField = nodeField;
+            nodeField.OnCrystalsSwap += () => this.audioPlayer.PlayCrystalSwap();
+            nodeField.OnCrystalsMatch += (amount) => OnCrystalsMatch(amount);
+            UIController.OnPlayButtonClicked += () => OnPlayButtonClicked();
         }
 
         private void OnDestroy()
         {
-            nodeController.OnSwap -= () => this.audioPlayer.PlayCrystalSwap();
-            nodeController.OnMatch -= () => this.audioPlayer.PlayCrystalMatch();
-        }
-
-        private List<GameObject> GetNodeList()
-        {
-            List<GameObject> list = new List<GameObject>();
-            int crystalCount = rowCount * columnCount;
-            for (int i = 0; i < crystalCount; i++)
-            {
-                list.Add(transform.GetChild(i).gameObject);
-            }
-            return list;
+            nodeField.OnCrystalsSwap -= () => audioPlayer.PlayCrystalSwap();
+            nodeField.OnCrystalsMatch -= (amount) => OnCrystalsMatch(amount);
+            UIController.OnPlayButtonClicked -= () => OnPlayButtonClicked();
         }
 
         private void Update()
         {
-            if (!nodeController.IsReady) return;
+            if (!nodeField.IsReady) return;
 
             if (Input.GetMouseButton(0))
             {
                 Cursor.visible = false;
                 if (pickedObject == null && inputHandler.TryToPick(out pickedObject))
                 {
-                    nodeController.ActivateFirstNodeByCrystal(pickedObject);
+                    nodeField.ActivateFirstNodeByCrystal(pickedObject);
                 }
                 Direction dir = inputHandler.GetSwapDirection();
-                nodeController.ActivateSecondNodeByDirection(dir);
+                nodeField.ActivateSecondNodeByDirection(dir);
             }
             else
             {
@@ -62,11 +50,21 @@ namespace Scripts.Gameplay
                 if (pickedObject == null) return;
 
                 pickedObject = null;
-                if (nodeController.TrySwapActiveCrystals())
+                if (nodeField.TrySwapActiveCrystals())
                 {
-                   StartCoroutine(nodeController.RunResolving());
+                    StartCoroutine(nodeField.RunResolvingAsync(true));
                 }
             }
+        }
+
+        private void OnCrystalsMatch(int amount)
+        {
+            audioPlayer.PlayCrystalMatch();
+        }
+
+        private void OnPlayButtonClicked()
+        {
+            StartCoroutine(nodeField.RunResolvingAsync(false));
         }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8272894662352629264}
   - component: {fileID: 534903393083516076}
-  - component: {fileID: -3782847253471443829}
+  - component: {fileID: -2164248025670956279}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: -3782847253471443829}
+  - {fileID: -2164248025670956279}
   _installerPrefabs: []
   _parentNewObjectsUnderContext: 1
   _editorReflectionBakingCoverageMode: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
       _missingHandlerDefaultResponse: 2
       _requireStrictUnsubscribe: 0
       _defaultAsyncTickPriority: 1
---- !u!114 &-3782847253471443829
+--- !u!114 &-2164248025670956279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,8 +74,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de66ed18c376d6d4faf1f4deb85e4245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redCrystal: {fileID: 1011319553682498, guid: 6ed5ee9eb0cb3654d9e5e67354bf6e04, type: 3}
-  greenCrystal: {fileID: 1011319553682498, guid: 03560aaef8caf8e41862ef3873c25bcb, type: 3}
-  blueCrystal: {fileID: 1011319553682498, guid: 9430b9da7f188134e86eca864fcd7492, type: 3}
-  pinkCrystal: {fileID: 1011319553682498, guid: 3cfa5edd9e1a5b7449004078491db03c, type: 3}
-  yellowCrystal: {fileID: 1011319553682498, guid: a2d81dde572d144449eca6de3d9858a7, type: 3}

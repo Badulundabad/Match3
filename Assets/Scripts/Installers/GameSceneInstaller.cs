@@ -8,35 +8,34 @@ namespace Scripts.Installers
 {
     public class GameSceneInstaller : MonoInstaller
     {
-        [SerializeField] private AudioClip victory;
-        [SerializeField] private AudioClip swap;
-        [SerializeField] private AudioClip match;
-        [SerializeField] private AudioClip reject;
         [SerializeField] private GameObject redCrystal;
         [SerializeField] private GameObject greenCrystal;
         [SerializeField] private GameObject blueCrystal;
         [SerializeField] private GameObject pinkCrystal;
         [SerializeField] private GameObject yellowCrystal;
+        [SerializeField] private GameObject nodeField;
+        [SerializeField] private AudioList audioList;
+        private int rowCount = 4;
+        private int columnCount = 4;
+        private GameObject[] nodeObjects;
         private Dictionary<CrystalColor, GameObject> prefabs;
-
 
         public override void InstallBindings()
         {
-            BindAudio();
-            BindCrystals();
+            Container.Bind<IInputHelper>().To<MouseHelper>().AsSingle();
+            BindAudioPlayer();
+            BindCrystalFactory();
+            BindNodeField();
         }
 
-        private void BindAudio()
+        private void BindAudioPlayer()
         {
+            Container.Bind<AudioList>().FromNewScriptableObject(audioList).AsSingle();
             Container.Bind<AudioSource>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<AudioClip>().WithId("victory").FromInstance(victory);
-            Container.Bind<AudioClip>().WithId("swap").FromInstance(swap);
-            Container.Bind<AudioClip>().WithId("match").FromInstance(match);
-            Container.Bind<AudioClip>().WithId("reject").FromInstance(reject);
-            Container.Bind<AudioPlayer>().AsSingle();
+            Container.Bind<AudioPlayer>().FromComponentInHierarchy().AsSingle();
         }
 
-        private void BindCrystals()
+        private void BindCrystalFactory()
         {
             prefabs = new Dictionary<CrystalColor, GameObject>();
             prefabs.Add(CrystalColor.red, redCrystal);
@@ -46,7 +45,26 @@ namespace Scripts.Installers
             prefabs.Add(CrystalColor.yellow, yellowCrystal);
             Container.Bind<Dictionary<CrystalColor, GameObject>>().FromInstance(prefabs).WhenInjectedInto<CrystalFactory>();
             Container.Bind<CrystalFactory>().AsSingle();
-            Container.Bind<IInputHelper>().To<MouseHelper>().AsSingle();
+        }
+
+        private void BindNodeField()
+        {
+            nodeObjects = GetNodeObjects();
+            Container.Bind<GameObject[]>().FromInstance(nodeObjects).WhenInjectedInto<NodeField>();
+            Container.Bind<int>().WithId("rows").FromInstance(rowCount).WhenInjectedInto<NodeField>();
+            Container.Bind<int>().WithId("columns").FromInstance(columnCount).WhenInjectedInto<NodeField>();
+            Container.Bind<NodeField>().AsSingle();
+        }
+
+        private GameObject[] GetNodeObjects()
+        {
+            int nodeCount = rowCount * columnCount;
+            GameObject[] objects = new GameObject[nodeCount];
+            for (int i = 0; i < nodeCount; i++)
+            {
+                objects[i] = nodeField.transform.GetChild(i).gameObject;
+            }
+            return objects;
         }
     }
 }
