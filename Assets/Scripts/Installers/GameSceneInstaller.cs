@@ -1,10 +1,10 @@
-﻿using Scripts.Gameplay;
-using Scripts.Audio;
+﻿using Match3.Gameplay;
+using Match3.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-namespace Scripts.Installers
+namespace Match3.Installers
 {
     public class GameSceneInstaller : MonoInstaller
     {

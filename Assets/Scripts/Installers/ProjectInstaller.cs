@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace Scripts.Installers
+namespace Match3.Installers
 {
     public class ProjectInstaller : MonoInstaller
     {

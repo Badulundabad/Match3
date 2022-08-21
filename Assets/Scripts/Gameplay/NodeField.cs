@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-namespace Scripts.Gameplay
+namespace Match3.Gameplay
 {
     public class NodeField
     {

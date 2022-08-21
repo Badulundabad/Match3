@@ -1,10 +1,10 @@
-using Scripts.Audio;
-using Scripts.UI;
+using Match3.Audio;
+using Match3.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace Scripts.Gameplay
+namespace Match3.Gameplay
 {
     public class GameController : MonoBehaviour
     {

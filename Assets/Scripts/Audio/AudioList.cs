@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.Audio
+namespace Match3.Audio
 {
     [CreateAssetMenu(fileName = "NewAudioList", menuName = "Audio List", order = 1)]
     public class AudioList : ScriptableObject

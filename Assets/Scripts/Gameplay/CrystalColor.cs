@@ -1,4 +1,4 @@
-﻿namespace Scripts.Gameplay
+﻿namespace Match3.Gameplay
 {
     public enum CrystalColor
     {

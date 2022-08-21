@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scripts.UI
+namespace Match3.UI
 {
     public class UIController : MonoBehaviour
     {

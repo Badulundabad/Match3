@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.Gameplay
+namespace Match3.Gameplay
 {
     public interface IInputHelper
     {

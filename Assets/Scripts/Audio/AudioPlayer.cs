@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Scripts.Audio
+namespace Match3.Audio
 {
     public class AudioPlayer : MonoBehaviour
     {

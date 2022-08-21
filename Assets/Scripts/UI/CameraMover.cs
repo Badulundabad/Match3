@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Scripts.UI
+namespace Match3.UI
 {
     public class CameraMover : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace Scripts.UI
         private bool isGoingUp;
         private float speed = 0;
         private float maxSpeed = 2;
-        private Camera camera;
+        private Camera mainCamera;
         private Transform bottomPoint;
         private Transform upperPoint;
 
@@ -26,8 +26,8 @@ namespace Scripts.UI
         private void Start()
         {
             Instance = this;
-            camera = GetComponent<Camera>();
-            camera.transform.position = bottomPoint.position;
+            mainCamera = GetComponent<Camera>();
+            mainCamera.transform.position = bottomPoint.position;
         }
 
         void Update()
@@ -56,19 +56,19 @@ namespace Scripts.UI
 
         private bool GoToPoint(Transform point)
         {
-            if (Vector3.Distance(camera.transform.position, point.position) < 0.5f)
+            if (Vector3.Distance(mainCamera.transform.position, point.position) < 0.5f)
             {
-                camera.transform.position = point.position;
-                camera.transform.rotation = point.rotation;
+                mainCamera.transform.position = point.position;
+                mainCamera.transform.rotation = point.rotation;
             }
             else
             {
-                Vector3 pos = Vector3.Slerp(camera.transform.position, point.position, speed * Time.deltaTime);
-                Quaternion rot = Quaternion.Slerp(camera.transform.rotation, point.rotation, speed * Time.deltaTime);
-                camera.transform.position = pos;
-                camera.transform.rotation = rot;
+                Vector3 pos = Vector3.Slerp(mainCamera.transform.position, point.position, speed * Time.deltaTime);
+                Quaternion rot = Quaternion.Slerp(mainCamera.transform.rotation, point.rotation, speed * Time.deltaTime);
+                mainCamera.transform.position = pos;
+                mainCamera.transform.rotation = rot;
             }
-            return camera.transform.position == point.position;
+            return mainCamera.transform.position == point.position;
         }
     }
 }

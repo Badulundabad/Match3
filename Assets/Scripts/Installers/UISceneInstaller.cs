@@ -1,8 +1,8 @@
-﻿using Scripts.UI;
+﻿using Match3.UI;
 using UnityEngine;
 using Zenject;
 
-namespace Scripts.Installers
+namespace Match3.Installers
 {
     public class UISceneInstaller : MonoInstaller
     {
