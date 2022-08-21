@@ -1,0 +1,10 @@
+{
+  "name": "com.dmitriygrin.match3",
+  "version": "1.0.0",
+  "displayName": "Match3",
+  "description": "Regular Match3 game.",
+  "unity": "2021.3.5f1",
+  "author": {
+    "name": "Dmitriy Grin"    
+  }
+}
